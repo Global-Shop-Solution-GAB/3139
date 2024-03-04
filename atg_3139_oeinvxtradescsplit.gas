@@ -1,0 +1,38 @@
+Program.Sub.ScreenSU.Start
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+'4/18/10
+'ANS
+'Hook 12045
+
+'9/15/10
+'MLA
+'Updated
+
+V.Local.sSQL.Declare(String)
+V.Local.sXDesc.Declare(String)
+V.Local.sSplitDesc.Declare(String)
+V.Local.sPart.Declare(String)
+
+F.ODBC.Connection!con.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+
+F.Intrinsic.String.Concat(V.Passed.000052,V.Passed.000053,V.Local.sPart)
+F.Intrinsic.String.Concat("Select Text_Sequence, Text_Line1, Text_Line2, Text_Line3 from V_Extra_Text where Part='",V.Local.sPart,"' order by Text_Sequence",V.Local.sSQL)
+F.ODBC.Connection!con.OpenRecordsetRO("rst",V.Local.sSQL)
+F.Intrinsic.Control.If(V.ODBC.con!rst.EOF,=,True)
+F.Intrinsic.Control.Else
+	V.Passed.000077.Set(V.ODBC.con!rst.FieldValLTrim!TEXT_LINE1)
+	V.Passed.000080.Set(V.ODBC.con!rst.FieldValLTrim!TEXT_LINE2)
+	V.Passed.000082.Set(V.ODBC.con!rst.FieldValLTrim!TEXT_LINE3)
+F.Intrinsic.Control.EndIf
+
+
+
+Program.Sub.Main.End
+
+
